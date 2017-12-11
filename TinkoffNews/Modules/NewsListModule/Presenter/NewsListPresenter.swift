@@ -15,6 +15,8 @@ class NewsListPresenter {
 //----------------------------------------------------
 extension NewsListPresenter: NewsListModuleInput {
     func configureModule() {
+        let viewModel = NewsListViewModel(news: [])
+        view?.updateViewModel(viewModel)
         view?.setupInitialState()
     }
 }
@@ -25,5 +27,15 @@ extension NewsListPresenter: NewsListModuleInput {
 extension NewsListPresenter: NewsListInteractorOutput {
     func updatedNews() {
         view?.endRefresh()
+    }
+    
+    func obtain(news: [TinkoffNews]?) {
+        guard let news = news else {
+            return
+        }
+        
+        let viewModel = NewsListViewModel(news: news)
+        view?.updateViewModel(viewModel)
+        
     }
 }

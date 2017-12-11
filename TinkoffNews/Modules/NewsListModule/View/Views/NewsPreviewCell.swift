@@ -12,6 +12,20 @@ enum NewsPreviewCellDefaults {
     static let cellID = "NewsPreviewCellReusableID"
 }
 
+fileprivate enum Sizes {
+    enum Preview {
+        static let leading: CGFloat = 25.0
+        static let trailing: CGFloat = -25.0
+        static let top: CGFloat = 5.0
+        
+    }
+    
+    enum Date {
+        static let top: CGFloat = 7.0
+        static let bottom: CGFloat = -5.0
+    }
+}
+
 class NewsPreviewCell: UITableViewCell {
     private let previewLabel: UILabel = {
         let label = UILabel()
@@ -47,13 +61,21 @@ class NewsPreviewCell: UITableViewCell {
     override func updateConstraints() {
         super.updateConstraints()
         
-        previewLabel.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
-        previewLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
-        previewLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
+        previewLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: Sizes.Preview.top).isActive = true
+        previewLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Sizes.Preview.leading).isActive = true
+        previewLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: Sizes.Preview.trailing).isActive = true
         
-        dateLabel.topAnchor.constraint(equalTo: previewLabel.bottomAnchor).isActive = true
+        dateLabel.topAnchor.constraint(equalTo: previewLabel.bottomAnchor, constant: Sizes.Date.top).isActive = true
         dateLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
-        dateLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
-        dateLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
+        dateLabel.trailingAnchor.constraint(equalTo: previewLabel.trailingAnchor).isActive = true
+        dateLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: Sizes.Date.bottom).isActive = true
+    }
+    
+    func set(text: String?) {
+        previewLabel.text = text
+    }
+    
+    func set(date: String?) {
+        dateLabel.text = date
     }
 }

@@ -7,13 +7,11 @@
 //
 
 import Foundation
-import CoreData
 
-@objc(TinkoffNews)
-final class TinkoffNews: NSManagedObject, Codable {
-    @NSManaged public var id: Int
-    @NSManaged public var text: String
-    @NSManaged public var publicationDate: Date
+struct TinkoffNews: Codable {
+    var id: Int
+    var text: String
+    var publicationDate: Date
     
     enum CodingKeys: CodingKey {
         case id
@@ -25,16 +23,7 @@ final class TinkoffNews: NSManagedObject, Codable {
         case milliseconds
     }
     
-    override init(entity: NSEntityDescription, insertInto context: NSManagedObjectContext?) {
-        super.init(entity: entity, insertInto: context)
-    }
-    
     public init(from decoder: Decoder) throws {
-        let managedContext = AppPersistentContainer.instance.context
-        let entityDescription = NSEntityDescription.entity(forEntityName: "TinkoffNews", in: managedContext)
-        
-        super.init(entity: entityDescription!, insertInto: managedContext)
-
         let values = try decoder.container(keyedBy: CodingKeys.self)
         
         id = Int(try values.decode(String.self, forKey: .id))!
@@ -45,20 +34,16 @@ final class TinkoffNews: NSManagedObject, Codable {
         publicationDate = Date(timeIntervalSince1970: milliseconds/1000)
     }
     
+    init(id: Int, text: String, publicationDate: Date) {        
+        self.id = id
+        self.text = text
+        self.publicationDate = publicationDate
+    }
+    
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(id, forKey: .id)
         try container.encode(text, forKey: .text)
         try container.encode(publicationDate, forKey: .publicationDate)
     }
-}
-
-extension TinkoffNews {
-    
-    @nonobjc public class func fetchRequest() -> NSFetchRequest<TinkoffNews> {
-        return NSFetchRequest<TinkoffNews>(entityName: "TinkoffNews")
-    }
-    
-    @NSManaged public var content: TinkoffNewContent?
-    
 }

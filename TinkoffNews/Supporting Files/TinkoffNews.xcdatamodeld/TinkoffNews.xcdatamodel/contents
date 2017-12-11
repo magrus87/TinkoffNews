@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="13533" systemVersion="17B1003" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
-    <entity name="TinkoffNewContent" representedClassName="TinkoffNewContent" syncable="YES">
+    <entity name="NewContent" representedClassName="NewContent" syncable="YES" codeGenerationType="class">
         <attribute name="content" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="news" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="TinkoffNews" inverseName="content" inverseEntity="TinkoffNews" syncable="YES"/>
+        <relationship name="news" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="News" inverseName="content" inverseEntity="News" syncable="YES"/>
     </entity>
-    <entity name="TinkoffNews" representedClassName="TinkoffNews" syncable="YES">
+    <entity name="News" representedClassName="News" syncable="YES" codeGenerationType="class">
         <attribute name="id" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="publicationDate" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="text" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="content" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="TinkoffNewContent" inverseName="news" inverseEntity="TinkoffNewContent" syncable="YES"/>
+        <relationship name="content" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="NewContent" inverseName="news" inverseEntity="NewContent" syncable="YES"/>
         <uniquenessConstraints>
             <uniquenessConstraint>
                 <constraint value="id"/>
@@ -16,7 +16,7 @@
         </uniquenessConstraints>
     </entity>
     <elements>
-        <element name="TinkoffNewContent" positionX="-63" positionY="-18" width="128" height="75"/>
-        <element name="TinkoffNews" positionX="-54" positionY="-9" width="128" height="105"/>
+        <element name="NewContent" positionX="-63" positionY="-18" width="128" height="75"/>
+        <element name="News" positionX="-54" positionY="-9" width="128" height="105"/>
     </elements>
 </model>

@@ -12,6 +12,7 @@ class NewContentInteractor {
     var output: NewContentInteractorOutput?
     
     private let apiService = TinkoffAPIService()
+    private let persistent = PersistentService()
 }
 
 //----------------------------------------------------
@@ -19,14 +20,16 @@ class NewContentInteractor {
 //----------------------------------------------------
 extension NewContentInteractor: NewContentInteractorInput {
     func getNew(id: Int) {
-        apiService.getNew(byID: id, completionHandler: { (newContent, error) in
+        apiService.getNew(byID: id, completionHandler: { (content, error) in
             if let error = error {
                 print(error)
                 return
             }
-            AppPersistentContainer.instance.saveContext()
+            self.persistent.save(content: content)
             
-            print("----getNew----")
+            DispatchQueue.main.async { [weak self] in
+                self?.output?.loadedNewContent(content: content)
+            }
         })
     }
 }

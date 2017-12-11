@@ -14,8 +14,8 @@ class NewContentPresenter {
 // MARK: - NewContentModuleInput
 //----------------------------------------------------
 extension NewContentPresenter: NewContentModuleInput {
-    func configureModule() {
-        view?.setupInitialState()
+    func configureModule(newID: Int) {
+        view?.setupInitialState(newID: newID)
     }
 }
 
@@ -23,5 +23,7 @@ extension NewContentPresenter: NewContentModuleInput {
 // MARK: - NewContentInteractorOutput
 //----------------------------------------------------
 extension NewContentPresenter: NewContentInteractorOutput {
-    
+    func loadedNewContent(content: TinkoffNewContent?) {
+        view?.showNewContent(content: content?.content ?? "")
+    }
 }

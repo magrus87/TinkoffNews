@@ -9,6 +9,13 @@
 import Foundation
 
 struct NewsListViewModel {
+    
+    private let dateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd.MM.yyyy"
+        return formatter
+    }()
+    
     var title: String {
         return "NEWS_LIST_TITLE".localized
     }
@@ -25,5 +32,25 @@ struct NewsListViewModel {
         }
         
         return news[index].text
+    }
+    
+    func date(index: Int) -> String? {
+        guard index < newsCount else {
+            return nil
+        }
+
+        return dateFormatter.string(from: news[index].publicationDate)
+    }
+    
+    func newID(index: Int) -> Int? {
+        guard index < newsCount else {
+            return nil
+        }
+        
+        return news[index].id
+    }
+    
+    init(news: [TinkoffNews]) {
+        self.news = news
     }
 }

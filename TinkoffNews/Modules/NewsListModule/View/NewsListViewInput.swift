@@ -10,4 +10,6 @@ protocol NewsListViewInput {
     func setupInitialState()
     
     func endRefresh()
+    
+    func updateViewModel(_ viewModel: NewsListViewModel)
 }

@@ -22,21 +22,8 @@ class NewsListInteractor {
 //----------------------------------------------------
 extension NewsListInteractor: NewsListInteractorInput {
     func fetchNews() {
-        do {
-            let entityName = "TinkoffNews"
-            let sortKey = TinkoffNews.CodingKeys.publicationDate.stringValue
-            let context = AppPersistentContainer.instance.context
-            let fetchedResultsController = persistent.fetchedResultsController(entityName: entityName,
-                                                                               sortKey: sortKey,
-                                                                               context: context)
-            try fetchedResultsController.performFetch()
-            
-            fetchedResultsController.object(at: <#T##IndexPath#>). .fetchedObjects.map({
-                $0 as! TinkoffNews
-            })
-            
-        } catch  {
-            print(error)
+        DispatchQueue.main.async { [weak self] in
+            self?.output?.obtain(news: self?.persistent.fetchNews())
         }
     }
     
@@ -46,8 +33,9 @@ extension NewsListInteractor: NewsListInteractorInput {
                 print(error)
                 return
             }
-            AppPersistentContainer.instance.saveContext()
             
+            self.persistent.save(news: news)
+
             DispatchQueue.main.async { [weak self] in
                 self?.output?.updatedNews()
             }

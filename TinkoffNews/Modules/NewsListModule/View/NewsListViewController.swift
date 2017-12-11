@@ -12,7 +12,7 @@ class NewsListViewController: ModuleTransition {
     var interactor: NewsListInteractorInput?
     var router: NewsListRouterInput?
     
-    private let viewModel = NewsListViewModel()
+    private var viewModel: NewsListViewModel?
 
     private let tableView: UITableView = {
         let table = UITableView()
@@ -27,7 +27,7 @@ class NewsListViewController: ModuleTransition {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = viewModel.title
+        title = viewModel?.title
         view.backgroundColor = .white
         
         refreshControl.addTarget(self, action: #selector(refreshData(_:)), for: .valueChanged)
@@ -71,6 +71,12 @@ extension NewsListViewController: NewsListViewInput {
     
     func endRefresh() {
         refreshControl.endRefreshing()
+        tableView.reloadData()
+    }
+    
+    func updateViewModel(_ viewModel: NewsListViewModel) {
+        self.viewModel = viewModel
+        tableView.reloadData()
     }
 }
 
@@ -78,15 +84,16 @@ extension NewsListViewController: NewsListViewInput {
 // MARK: - UITableViewDataSource
 //----------------------------------------------------
 extension NewsListViewController: UITableViewDataSource {
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.newsCount
+        return viewModel?.newsCount ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: NewsPreviewCellDefaults.cellID,
-                                                 for: indexPath)
-        cell.textLabel?.text = viewModel.newsPreview(index: indexPath.row)
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: NewsPreviewCellDefaults.cellID, for: indexPath) as? NewsPreviewCell else {
+            return UITableViewCell(style: .default, reuseIdentifier: NewsPreviewCellDefaults.cellID)
+        }
+        cell.set(text: viewModel?.newsPreview(index: indexPath.row))
+        cell.set(date: viewModel?.date(index: indexPath.row))
         return cell
     }
 }
@@ -95,9 +102,13 @@ extension NewsListViewController: UITableViewDataSource {
 // MARK: - UITableViewDelegate
 //----------------------------------------------------
 extension NewsListViewController: UITableViewDelegate {
-    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
         
+        guard let newID = viewModel?.newID(index: indexPath.row) else {
+            return
+        }
+        router?.showNewsContentModule(newID: newID)
     }
 }
 

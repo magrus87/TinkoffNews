@@ -9,5 +9,5 @@
 protocol NewsListInteractorOutput {
     func updatedNews()
     
-    func prepare(with resultController: )
+    func obtain(news: [TinkoffNews]?)
 }

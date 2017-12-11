@@ -7,5 +7,5 @@
 //
 
 protocol NewContentInteractorOutput {
-    
+    func loadedNewContent(content: TinkoffNewContent?)
 }

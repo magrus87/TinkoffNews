@@ -16,10 +16,10 @@ class NewsListRouter {
 // MARK: - NewsListRouterInput
 //----------------------------------------------------
 extension NewsListRouter: NewsListRouterInput {
-    func showNewsModule() {
+    func showNewsContentModule(newID: Int) {
         let newsModule = NewContentModule()
         if let moduleInput = newsModule.viewController.moduleInput as? NewContentModuleInput {
-            moduleInput.configureModule()
+            moduleInput.configureModule(newID: newID)
         }
         transitionHandler?.navigationController?.pushViewController(newsModule.viewController, animated: true)
     }

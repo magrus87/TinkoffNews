@@ -7,5 +7,5 @@
 //
 
 protocol NewContentModuleInput: ModuleInput {
-    func configureModule()
+    func configureModule(newID: Int)
 }

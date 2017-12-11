@@ -7,5 +7,5 @@
 //
 
 protocol NewsListRouterInput {
-    func showNewsModule()
+    func showNewsContentModule(newID: Int)
 }

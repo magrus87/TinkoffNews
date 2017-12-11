@@ -7,5 +7,7 @@
 //
 
 protocol NewContentViewInput {
-    func setupInitialState()
+    func setupInitialState(newID: Int)
+    
+    func showNewContent(content: String)
 }
