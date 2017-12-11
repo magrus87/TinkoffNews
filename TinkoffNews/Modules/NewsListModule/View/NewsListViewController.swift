@@ -46,7 +46,6 @@ class NewsListViewController: ModuleTransition {
         view.updateConstraintsIfNeeded()
     }
     
-    
     override func updateViewConstraints() {
         super.updateViewConstraints()
         
@@ -71,7 +70,7 @@ extension NewsListViewController: NewsListViewInput {
     
     func endRefresh() {
         refreshControl.endRefreshing()
-        tableView.reloadData()
+        interactor?.fetchNews()
     }
     
     func updateViewModel(_ viewModel: NewsListViewModel) {
